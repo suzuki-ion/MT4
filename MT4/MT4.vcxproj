@@ -61,7 +61,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions);%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\KamataEngine\Adapter;C:\KamataEngine\External\imgui;C:\KamataEngine\External\KamataEngine\include;C:\KamataEngine\External\DirectXTex\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\KamataEngine\Adapter;$(ProjectDir);C:\KamataEngine\External\imgui;C:\KamataEngine\External\KamataEngine\include;C:\KamataEngine\External\DirectXTex\include;%(AdditionalIncludeDirectories);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <TreatWarningAsError>true</TreatWarningAsError>
@@ -86,7 +86,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions);%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\KamataEngine\Adapter;C:\KamataEngine\External\KamataEngine\include;C:\KamataEngine\External\DirectXTex\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\KamataEngine\Adapter;$(ProjectDir);C:\KamataEngine\External\KamataEngine\include;C:\KamataEngine\External\DirectXTex\include;%(AdditionalIncludeDirectories);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <Optimization>MinSpace</Optimization>
       <LanguageStandard>stdcpp20</LanguageStandard>
@@ -110,35 +110,43 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
   <ItemGroup>
     <ClCompile Include="C:\KamataEngine\Adapter\Novice.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MathFunctions\AABB.cpp" />
+    <ClCompile Include="MathFunctions\AffineMatrix.cpp" />
+    <ClCompile Include="MathFunctions\Bezier.cpp" />
+    <ClCompile Include="MathFunctions\Camera.cpp" />
+    <ClCompile Include="MathFunctions\CollisionFunctions.cpp" />
+    <ClCompile Include="MathFunctions\DrawGrid.cpp" />
+    <ClCompile Include="MathFunctions\Lines.cpp" />
+    <ClCompile Include="MathFunctions\Matrix4x4.cpp" />
+    <ClCompile Include="MathFunctions\Plane.cpp" />
+    <ClCompile Include="MathFunctions\RenderingPipeline.cpp" />
+    <ClCompile Include="MathFunctions\ScreenPrintf.cpp" />
+    <ClCompile Include="MathFunctions\Sphere.cpp" />
+    <ClCompile Include="MathFunctions\Triangle.cpp" />
+    <ClCompile Include="MathFunctions\Vector3.cpp" />
+    <ClCompile Include="Physics\ConicalPendulum.cpp" />
+    <ClCompile Include="Physics\Pendulum.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\DirectXGame\3d\Camera.h" />
-    <ClInclude Include="C:\KamataEngine\DirectXGame\base\StringUtility.h" />
-    <ClInclude Include="C:\KamataEngine\DirectXGame\math\Matrix4x4.h" />
-    <ClInclude Include="C:\KamataEngine\DirectXGame\math\Vector2.h" />
-    <ClInclude Include="C:\KamataEngine\DirectXGame\math\Vector3.h" />
-    <ClInclude Include="C:\KamataEngine\DirectXGame\math\Vector4.h" />
-    <ClInclude Include="C:\KamataEngine\DirectXGame\3d\CircleShadow.h" />
-    <ClInclude Include="C:\KamataEngine\DirectXGame\3d\DebugCamera.h" />
-    <ClInclude Include="C:\KamataEngine\DirectXGame\3d\DirectionalLight.h" />
-    <ClInclude Include="C:\KamataEngine\DirectXGame\3d\LightGroup.h" />
-    <ClInclude Include="C:\KamataEngine\DirectXGame\3d\Material.h" />
-    <ClInclude Include="C:\KamataEngine\DirectXGame\3d\Mesh.h" />
-    <ClInclude Include="C:\KamataEngine\DirectXGame\3d\PointLight.h" />
-    <ClInclude Include="C:\KamataEngine\DirectXGame\3d\SpotLight.h" />
-    <ClInclude Include="C:\KamataEngine\DirectXGame\2d\DebugText.h" />
-    <ClInclude Include="C:\KamataEngine\DirectXGame\2d\Sprite.h" />
-    <ClInclude Include="C:\KamataEngine\DirectXGame\2d\ImGuiManager.h" />
-    <ClInclude Include="C:\KamataEngine\DirectXGame\3d\Model.h" />
-    <ClInclude Include="C:\KamataEngine\DirectXGame\3d\WorldTransform.h" />
-    <ClInclude Include="C:\KamataEngine\DirectXGame\audio\Audio.h" />
-    <ClInclude Include="C:\KamataEngine\DirectXGame\base\DirectXCommon.h" />
-    <ClInclude Include="C:\KamataEngine\DirectXGame\base\SafeDelete.h" />
-    <ClInclude Include="C:\KamataEngine\DirectXGame\base\TextureManager.h" />
-    <ClInclude Include="C:\KamataEngine\DirectXGame\base\WinApp.h" />
-    <ClInclude Include="C:\KamataEngine\DirectXGame\input\Input.h" />
-    <ClInclude Include="C:\KamataEngine\DirectXGame\scene\GameScene.h" />
     <ClInclude Include="C:\KamataEngine\Adapter\Novice.h" />
+    <ClInclude Include="MathFunctions\AABB.h" />
+    <ClInclude Include="MathFunctions\AffineMatrix.h" />
+    <ClInclude Include="MathFunctions\Bezier.h" />
+    <ClInclude Include="MathFunctions\Camera.h" />
+    <ClInclude Include="MathFunctions\CollisionFunctions.h" />
+    <ClInclude Include="MathFunctions\DrawGrid.h" />
+    <ClInclude Include="MathFunctions\Lines.h" />
+    <ClInclude Include="MathFunctions\Matrix4x4.h" />
+    <ClInclude Include="MathFunctions\Plane.h" />
+    <ClInclude Include="MathFunctions\RenderingPipeline.h" />
+    <ClInclude Include="MathFunctions\ScreenPrintf.h" />
+    <ClInclude Include="MathFunctions\Sphere.h" />
+    <ClInclude Include="MathFunctions\Triangle.h" />
+    <ClInclude Include="MathFunctions\Vector3.h" />
+    <ClInclude Include="Physics\Ball.h" />
+    <ClInclude Include="Physics\ConicalPendulum.h" />
+    <ClInclude Include="Physics\Pendulum.h" />
+    <ClInclude Include="Physics\Spring.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

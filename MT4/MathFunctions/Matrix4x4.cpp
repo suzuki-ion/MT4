@@ -395,3 +395,25 @@ void Matrix4x4::MakeAffine(const Vector3 &scale, const Vector3 &rotate, const Ve
     *this =  mS * (mX * mY * mZ) * mT;
 }
 
+void Matrix4x4::MakeRotateAxisAngle(const Vector3 &axis, const float angle) noexcept {
+    float c = std::cos(angle);
+    float s = std::sin(angle);
+    float t = 1.0f - c;
+    m[0][0] = c + axis.x * axis.x * t;
+    m[0][1] = axis.x * axis.y * t + axis.z * s;
+    m[0][2] = axis.x * axis.z * t - axis.y * s;
+    m[0][3] = 0.0f;
+    m[1][0] = axis.y * axis.x * t - axis.z * s;
+    m[1][1] = c + axis.y * axis.y * t;
+    m[1][2] = axis.y * axis.z * t + axis.x * s;
+    m[1][3] = 0.0f;
+    m[2][0] = axis.z * axis.x * t + axis.y * s;
+    m[2][1] = axis.z * axis.y * t - axis.x * s;
+    m[2][2] = c + axis.z * axis.z * t;
+    m[2][3] = 0.0f;
+    m[3][0] = 0.0f;
+    m[3][1] = 0.0f;
+    m[3][2] = 0.0f;
+    m[3][3] = 1.0f;
+}
+

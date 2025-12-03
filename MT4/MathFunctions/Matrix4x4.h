@@ -126,5 +126,12 @@ struct Matrix4x4 {
         const Vector3 &rotate,
         const Vector3 &translate) noexcept;
 
+    /// @brief 任意軸回転行列を生成する
+    /// @param axis 回転軸ベクトル
+    /// @param angle 回転角度
+    void MakeRotateAxisAngle(
+        const Vector3 &axis,
+        const float angle) noexcept;
+
     float m[4][4];
 };

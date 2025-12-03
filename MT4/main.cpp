@@ -26,17 +26,27 @@
 #include "Physics/Pendulum.h"
 #include "Physics/ConicalPendulum.h"
 
+extern const float kWinWidth = 1280.0f;
+extern const float kWinHeight = 720.0f;
 const char kWindowTitle[] = "LE2A_09_スズキ_イオン";
 
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	// ライブラリの初期化
-	Novice::Initialize(kWindowTitle, 1280, 720);
+    Novice::Initialize(kWindowTitle, static_cast<int>(kWinWidth), static_cast<int>(kWinHeight));
 
 	// キー入力結果を受け取る箱
 	char keys[256] = {0};
 	char preKeys[256] = {0};
+
+    // 任意回転軸用のベクトル
+    Vector3 axis = Vector3(1.0f, 1.0f, 1.0f).Normalize();
+	// 回転角度
+    float angle = 0.44f;
+	// 回転行列
+	Matrix4x4 rotationMatrix;
+    rotationMatrix.MakeRotateAxisAngle(axis, angle);
 
 	// ウィンドウの×ボタンが押されるまでループ
 	while (Novice::ProcessMessage() == 0) {
@@ -58,6 +68,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		///
 		/// ↓描画処理ここから
 		///
+
+        MatrixScreenPrintf(0, 0, rotationMatrix, "rotateMatrix");
 
 		///
 		/// ↑描画処理ここまで
