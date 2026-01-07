@@ -1,6 +1,7 @@
 ﻿#include "Matrix4x4.h"
 #include "Vector3.h"
 #include <cmath>
+#include <numbers>
 
 constexpr float Matrix4x4::Matrix2x2::Determinant() const noexcept {
     return m[0][0] * m[1][1] - m[0][1] * m[1][0];
@@ -325,17 +326,19 @@ void Matrix4x4::MakeRotate(const float radianX, const float radianY, const float
 }
 
 void Matrix4x4::MakeRotateX(const float radian) noexcept {
+    float s = std::sin(radian);
+    float c = std::cos(radian);
     m[0][0] = 1.0f;
     m[0][1] = 0.0f;
     m[0][2] = 0.0f;
     m[0][3] = 0.0f;
     m[1][0] = 0.0f;
-    m[1][1] = std::cos(radian);
-    m[1][2] = std::sin(radian);
+    m[1][1] = c;
+    m[1][2] = s;
     m[1][3] = 0.0f;
     m[2][0] = 0.0f;
-    m[2][1] = -std::sin(radian);
-    m[2][2] = std::cos(radian);
+    m[2][1] = -s;
+    m[2][2] = c;
     m[2][3] = 0.0f;
     m[3][0] = 0.0f;
     m[3][1] = 0.0f;
@@ -344,17 +347,19 @@ void Matrix4x4::MakeRotateX(const float radian) noexcept {
 }
 
 void Matrix4x4::MakeRotateY(const float radian) noexcept {
-    m[0][0] = std::cos(radian);
+    float s = std::sin(radian);
+    float c = std::cos(radian);
+    m[0][0] = c;
     m[0][1] = 0.0f;
-    m[0][2] = -std::sin(radian);
+    m[0][2] = -s;
     m[0][3] = 0.0f;
     m[1][0] = 0.0f;
     m[1][1] = 1.0f;
     m[1][2] = 0.0f;
     m[1][3] = 0.0f;
-    m[2][0] = std::sin(radian);
+    m[2][0] = s;
     m[2][1] = 0.0f;
-    m[2][2] = std::cos(radian);
+    m[2][2] = c;
     m[2][3] = 0.0f;
     m[3][0] = 0.0f;
     m[3][1] = 0.0f;
@@ -363,12 +368,14 @@ void Matrix4x4::MakeRotateY(const float radian) noexcept {
 }
 
 void Matrix4x4::MakeRotateZ(const float radian) noexcept {
-    m[0][0] = std::cos(radian);
-    m[0][1] = std::sin(radian);
+    float s = std::sin(radian);
+    float c = std::cos(radian);
+    m[0][0] = c;
+    m[0][1] = s;
     m[0][2] = 0.0f;
     m[0][3] = 0.0f;
-    m[1][0] = -std::sin(radian);
-    m[1][1] = std::cos(radian);
+    m[1][0] = -s;
+    m[1][1] = c;
     m[1][2] = 0.0f;
     m[1][3] = 0.0f;
     m[2][0] = 0.0f;
@@ -410,6 +417,38 @@ void Matrix4x4::MakeRotateAxisAngle(const Vector3 &axis, const float angle) noex
     m[2][0] = axis.z * axis.x * t + axis.y * s;
     m[2][1] = axis.z * axis.y * t - axis.x * s;
     m[2][2] = c + axis.z * axis.z * t;
+    m[2][3] = 0.0f;
+    m[3][0] = 0.0f;
+    m[3][1] = 0.0f;
+    m[3][2] = 0.0f;
+    m[3][3] = 1.0f;
+}
+
+void Matrix4x4::MakeDirectionToDirection(const Vector3 &from, const Vector3 &to) noexcept {
+    Vector3 n;
+    if (from == -to) {
+        if (std::abs(from.x) > std::abs(from.z)) {
+            n = Vector3(-from.y, from.x, 0.0f).Normalize();
+        } else {
+            n = Vector3(0.0f, -from.z, from.y).Normalize();
+        }
+    } else {
+        n = from.Cross(to).Normalize();
+    }
+    float c = from.Dot(to);
+    float s = (from.Cross(to)).Length();
+    float t = 1.0f - c;
+    m[0][0] = n.x * n.x * t + c;
+    m[0][1] = n.x * n.y * t + n.z * s;
+    m[0][2] = n.x * n.z * t - n.y * s;
+    m[0][3] = 0.0f;
+    m[1][0] = n.y * n.x * t - n.z * s;
+    m[1][1] = n.y * n.y * t + c;
+    m[1][2] = n.y * n.z * t + n.x * s;
+    m[1][3] = 0.0f;
+    m[2][0] = n.z * n.x * t + n.y * s;
+    m[2][1] = n.z * n.y * t - n.x * s;
+    m[2][2] = n.z * n.z * t + c;
     m[2][3] = 0.0f;
     m[3][0] = 0.0f;
     m[3][1] = 0.0f;

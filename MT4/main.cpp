@@ -40,13 +40,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	char keys[256] = {0};
 	char preKeys[256] = {0};
 
-    // 任意回転軸用のベクトル
-    Vector3 axis = Vector3(1.0f, 1.0f, 1.0f).Normalize();
-	// 回転角度
-    float angle = 0.44f;
-	// 回転行列
-	Matrix4x4 rotationMatrix;
-    rotationMatrix.MakeRotateAxisAngle(axis, angle);
+    Vector3 from0 = Vector3(1.0f, 0.7f, 0.5f).Normalize();
+	Vector3 to0 = -from0;
+    Vector3 from1 = Vector3(-0.6f, 0.9f, 0.2f).Normalize();
+    Vector3 to1 = Vector3(0.4f, 0.7f, -0.5f).Normalize();
+	Matrix4x4 rotationMatrix0;
+    rotationMatrix0.MakeDirectionToDirection(Vector3(1.0f, 0.0f, 0.0f).Normalize(), Vector3(-1.0f, 0.0f, 0.0f).Normalize());
+	Matrix4x4 rotationMatrix1;
+	rotationMatrix1.MakeDirectionToDirection(from0, to0);
+    Matrix4x4 rotationMatrix2;
+    rotationMatrix2.MakeDirectionToDirection(from1, to1);
 
 	// ウィンドウの×ボタンが押されるまでループ
 	while (Novice::ProcessMessage() == 0) {
@@ -69,7 +72,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		/// ↓描画処理ここから
 		///
 
-        MatrixScreenPrintf(0, 0, rotationMatrix, "rotateMatrix");
+        MatrixScreenPrintf(0, 0, rotationMatrix0, "rotationMatrix0");
+        MatrixScreenPrintf(0, 128, rotationMatrix1, "rotationMatrix1");
+        MatrixScreenPrintf(0, 256, rotationMatrix2, "rotationMatrix2");
 
 		///
 		/// ↑描画処理ここまで

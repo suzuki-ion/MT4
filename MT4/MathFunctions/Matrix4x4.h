@@ -133,5 +133,12 @@ struct Matrix4x4 {
         const Vector3 &axis,
         const float angle) noexcept;
 
+    /// @brief 方向ベクトルから方向ベクトルへの回転行列を生成する
+    /// @param from 始点方向ベクトル
+    /// @param to 終点方向ベクトル
+    void MakeDirectionToDirection(
+        const Vector3 &from,
+        const Vector3 &to) noexcept;
+
     float m[4][4];
 };
