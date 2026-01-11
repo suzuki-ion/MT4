@@ -91,5 +91,6 @@
     <ClInclude Include="Physics\ConicalPendulum.h" />
     <ClInclude Include="Physics\Pendulum.h" />
     <ClInclude Include="Physics\Spring.h" />
+    <ClInclude Include="MathFunctions\Quaternion.h" />
   </ItemGroup>
 </Project>

@@ -4,6 +4,7 @@
 #include "MathFunctions/Vector3.h"
 #include "MathFunctions/Matrix4x4.h"
 #include "MathFunctions/AffineMatrix.h"
+#include "MathFunctions/Quaternion.h"
 
 //--------- 描画関数 ---------//
 #include "MathFunctions/ScreenPrintf.h"
@@ -40,16 +41,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	char keys[256] = {0};
 	char preKeys[256] = {0};
 
-    Vector3 from0 = Vector3(1.0f, 0.7f, 0.5f).Normalize();
-	Vector3 to0 = -from0;
-    Vector3 from1 = Vector3(-0.6f, 0.9f, 0.2f).Normalize();
-    Vector3 to1 = Vector3(0.4f, 0.7f, -0.5f).Normalize();
-	Matrix4x4 rotationMatrix0;
-    rotationMatrix0.MakeDirectionToDirection(Vector3(1.0f, 0.0f, 0.0f).Normalize(), Vector3(-1.0f, 0.0f, 0.0f).Normalize());
-	Matrix4x4 rotationMatrix1;
-	rotationMatrix1.MakeDirectionToDirection(from0, to0);
-    Matrix4x4 rotationMatrix2;
-    rotationMatrix2.MakeDirectionToDirection(from1, to1);
+    Quaternion q1(2.0f, 3.0f, 4.0f, 1.0f);
+    Quaternion q2(1.0f, 3.0f, 5.0f, 2.0f);
+    Quaternion identity = Quaternion::Identity();
+	Quaternion conj = q1.Conjugate();
+    Quaternion inv = q1.Inverse();
+	Quaternion normal = q1.Normalize();
+    Quaternion mul1 = q1 * q2;
+    Quaternion mul2 = q2 * q1;
+	float norm = q1.Norm();
 
 	// ウィンドウの×ボタンが押されるまでループ
 	while (Novice::ProcessMessage() == 0) {
@@ -72,9 +72,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		/// ↓描画処理ここから
 		///
 
-        MatrixScreenPrintf(0, 0, rotationMatrix0, "rotationMatrix0");
-        MatrixScreenPrintf(0, 128, rotationMatrix1, "rotationMatrix1");
-        MatrixScreenPrintf(0, 256, rotationMatrix2, "rotationMatrix2");
+        QuaternionScreenPrintf(0, 32 * 0, identity, "Identity");
+        QuaternionScreenPrintf(0, 32 * 1, conj, "Conjugate");
+        QuaternionScreenPrintf(0, 32 * 2, inv, "Inverse");
+		QuaternionScreenPrintf(0, 32 * 3, normal, "Normalize");
+		QuaternionScreenPrintf(0, 32 * 4, mul1, "q1 * q2");
+		QuaternionScreenPrintf(0, 32 * 5, mul2, "q2 * q1");
+        Novice::ScreenPrintf(0, 32 * 6, "Norm: %6.3f", norm);
 
 		///
 		/// ↑描画処理ここまで
