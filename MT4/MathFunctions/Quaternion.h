@@ -3,10 +3,12 @@
 
 struct Quaternion {
     static Quaternion Identity() noexcept {
-        return Quaternion(0.0f, 0.0f, 0.0f, 1.0f);
+        static Quaternion id(0.0f, 0.0f, 0.0f, 1.0f);
+        return id;
     }
     static Quaternion Zero() noexcept {
-        return Quaternion(0.0f, 0.0f, 0.0f, 0.0f);
+        static Quaternion zero(0.0f, 0.0f, 0.0f, 0.0f);
+        return zero;
     }
 
     Quaternion() noexcept = default;
@@ -100,6 +102,49 @@ struct Quaternion {
             return Quaternion::Zero();
         }
         return Conjugate() / normSq;
+    }
+
+    Quaternion MakeRotateAxisAngle(const Vector3 &axis, float angleRad) const noexcept {
+        float halfAngle = angleRad * 0.5f;
+        float s = std::sin(halfAngle);
+        float c = std::cos(halfAngle);
+        return Quaternion(axis.x * s, axis.y * s, axis.z * s, c);
+    }
+
+    Vector3 RotateVector(const Vector3 &vec) const noexcept {
+        Quaternion vecQuat(vec.x, vec.y, vec.z, 0.0f);
+        Quaternion resQuat = (*this) * vecQuat * Inverse();
+        return Vector3(resQuat.x, resQuat.y, resQuat.z);
+    }
+
+    Matrix4x4 MakeRotateMatrix() const noexcept {
+        Matrix4x4 mat;
+        float xx = x * x;
+        float yy = y * y;
+        float zz = z * z;
+        float xy = x * y;
+        float xz = x * z;
+        float yz = y * z;
+        float wx = w * x;
+        float wy = w * y;
+        float wz = w * z;
+        mat.m[0][0] = 1.0f - 2.0f * (yy + zz);
+        mat.m[0][1] = 2.0f * (xy + wz);
+        mat.m[0][2] = 2.0f * (xz - wy);
+        mat.m[0][3] = 0.0f;
+        mat.m[1][0] = 2.0f * (xy - wz);
+        mat.m[1][1] = 1.0f - 2.0f * (xx + zz);
+        mat.m[1][2] = 2.0f * (yz + wx);
+        mat.m[1][3] = 0.0f;
+        mat.m[2][0] = 2.0f * (xz + wy);
+        mat.m[2][1] = 2.0f * (yz - wx);
+        mat.m[2][2] = 1.0f - 2.0f * (xx + yy);
+        mat.m[2][3] = 0.0f;
+        mat.m[3][0] = 0.0f;
+        mat.m[3][1] = 0.0f;
+        mat.m[3][2] = 0.0f;
+        mat.m[3][3] = 1.0f;
+        return mat;
     }
 
     float x;
