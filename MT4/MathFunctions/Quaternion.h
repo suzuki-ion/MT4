@@ -11,6 +11,30 @@ struct Quaternion {
         return zero;
     }
 
+    static Quaternion Slerp(const Quaternion &q1, const Quaternion &q2, float t) noexcept {
+        float dot = q1.x * q2.x + q1.y * q2.y + q1.z * q2.z + q1.w * q2.w;
+        Quaternion q2Copy = q2;
+        if (dot < 0.0f) {
+            dot = -dot;
+            q2Copy.x = -q2Copy.x;
+            q2Copy.y = -q2Copy.y;
+            q2Copy.z = -q2Copy.z;
+            q2Copy.w = -q2Copy.w;
+        }
+        const float dotThreshold = 0.9995f;
+        if (dot > dotThreshold) {
+            Quaternion result = q1 + (q2Copy - q1) * t;
+            return result.Normalize();
+        }
+        float theta0 = std::acos(dot);
+        float theta = theta0 * t;
+        float sinTheta = std::sin(theta);
+        float sinTheta0 = std::sin(theta0);
+        float s0 = std::cos(theta) - dot * sinTheta / sinTheta0;
+        float s1 = sinTheta / sinTheta0;
+        return (q1 * s0) + (q2Copy * s1);
+    }
+
     Quaternion() noexcept = default;
     constexpr Quaternion(float x, float y, float z, float w) noexcept
         : x(x), y(y), z(z), w(w)
